@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<style>
+#div1 {
+    float: left;
+    width: 100px;
+    height: 100px;
+    border-radius:50%;
+    margin: 10px;
+    padding: 10px;
+    background:yellow;
+}
+ #div2 {
+    float: left;
+    width: 100px;
+    height: 100px;
+    border-radius:50%;
+    margin: 10px;
+    padding: 10px;
+    background:green;
+}
+</style>
+<script>
+function allowDrop(ev) {
+    ev.preventDefault();
+}
+
+function drag(ev) {
+    ev.dataTransfer.setData("text", ev.target.id);
+}
+
+function drop(ev) {
+    ev.preventDefault();
+    var data = ev.dataTransfer.getData("text");
+    ev.target.appendChild(document.getElementById(data));
+}
+</script>
+</head>
+<body onload="foo()">
+
+
+
+<svg style="display:none" height="100" width="100" >
+  <circle id="div2" ondrop="drop(event)" ondragover="allowDrop(event)" cx="50" cy="50" r="40"  fill="green" />
+  <svg>
+<div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)">
+  <img src="hello.gif" draggable="true" ondragstart="drag(event)" id="drag1" width="88" height="31" style="margin-top:30px">
+</div>
+ <svg style="display:none" height="100" width="100" >
+  <circle id="div2" ondrop="drop(event)" ondragover="allowDrop(event)" cx="50" cy="50" r="40"  fill="green" />
+  <svg>
+<div id="div2" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+
+<button onclick="getLocation()">Try it</button>
+<p id="demo"></p>
+<script>var x = document.getElementById("demo");
+
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else { 
+        x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+}
+function foo(){
+
+if(localStorage.getItem("Latitude")==null || localStorage.getItem("Longitude")==null){
+x.innerHTML="Local Storage Not set"
+ }
+ else{
+    x.innerHTML = "Latitude: " + localStorage.getItem("Latitude") + 
+    "<br>Longitude: " + localStorage.getItem("Longitude");
+
+}}
+function showPosition(position) {
+    x.innerHTML = "Latitude: " + position.coords.latitude + 
+    "<br>Longitude: " + position.coords.longitude;
+    localStorage.setItem("Latitude", position.coords.latitude);
+    localStorage.setItem("Longitude", position.coords.longitude);
+    
+}</script>
+
+ <div id="result"></div>
+
+
+</body>
+</html>
+
